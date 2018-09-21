@@ -1,6 +1,4 @@
-<p align="center">
-	![FastyBird logo](fastybird_logo.png)
-</p>
+![FastyBird logo](fastybird_logo.png)
 
 # The FastyBird IoT convention
 
