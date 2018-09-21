@@ -79,7 +79,7 @@ A *thing* can expose multiple *channels*.
 Channels are independent or logically separable parts of a thing.
 For example, a light might expose a `switch` channel, a `color` channel and a `temperature` channel.
 
-Channeks can be **arrays**.
+Channels can be **arrays**.
 For example, instead of creating two `switches` channels to control two relays independently, we can set the `switches` channel to be an array with two elements.
 
 **Properties:**
@@ -220,7 +220,7 @@ For example, a smart switch thing with an ID of `9222852d-1fc4-447b-9967-f8d82fb
 /fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/$mac → "DE:AD:BE:EF:FE:ED"
 /fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/$fw/name → "smart-switch-firmware"
 /fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/$fw/version → "1.0.0"
-/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/$nodes → "buttons[],status-led,switches[]"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/$channels → "buttons[],status-led,switches[]"
 /fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/$implementation → "esp8266"
 /fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/$stats/interval → "60"
 /fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/$state → "ready"
@@ -377,7 +377,7 @@ A channel attribute MUST be one of these:
     <td>$properties</td>
     <td>Thing → Controller</td>
     <td>
-      Properties the channel exposes, with format <code>id</code> separated by a <code>,</code> if there are multiple nodes.
+      Properties the channel exposes, with format <code>id</code> separated by a <code>,</code> if there are multiple channels.
     </td>
     <td>Yes</td>
     <td>Yes</td>
@@ -394,8 +394,8 @@ A channel attribute MUST be one of these:
 For example, our `status-led` channel would send:
 
 ```java
-/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/status-led/$name → "Car engine"
-/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/status-led/$type → "V8"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/status-led/$name → "Switch status led"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/status-led/$type → "led"
 /fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/status-led/$properties → "status,mode"
 ```
 
@@ -403,17 +403,20 @@ For example, our `status-led` channel would send:
 
 ### Properties
 
-* `homie` / `device ID` / `node ID` / **`property ID`**: this is the base topic of a property.
-Each property must have a unique property ID on a per-node basis which adhere to the [ID format](#topic-ids).
+* / `fastybird` / `thing ID` / `channel ID` / **`property ID`**: this is the base topic of a property.
+
+Each property must have a unique property ID on a per-channel basis which adhere to the [ID format](#topic-ids).
 
 * A property value (e.g. a sensor reading) is directly published to the property topic, e.g.:
-  ```java
-  homie/super-car/engine/temperature → "21.5"
-  ```
+
+```java
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/thermostat/temperature → "21.5"
+```
 
 #### Property Attributes
 
-* `homie` / `device ID` / `node ID` / `property ID` / **`$property-attribute`**:
+* / `fastybird` / `thing ID` / `channel ID` / `property ID` / **`$property-attribute`**:
+
 A property attribute MUST be one of these:
 
 <table>
@@ -427,7 +430,7 @@ A property attribute MUST be one of these:
     </tr>
     <tr>
        <td>$name</td>
-       <td>Device → Controller</td>
+       <td>Thing → Controller</td>
        <td>Friendly name of the property.</td>
        <td>Any String</td>
        <td>Yes</td>
@@ -435,7 +438,7 @@ A property attribute MUST be one of these:
     </tr>
     <tr>
         <td>$settable</td>
-        <td>Device → Controller</td>
+        <td>Thing → Controller</td>
         <td>Specifies whether the property is settable (<code>true</code>) or readonly (<code>false</code>)</td>
         <td><code>true</code> or <code>false</code></td>
         <td>Yes</td>
@@ -443,10 +446,10 @@ A property attribute MUST be one of these:
     </tr>
     <tr>
         <td>$unit</td>
-        <td>Device → Controller</td>
+        <td>Thing → Controller</td>
         <td>
           A string containing the unit of this property.
-          You are not limited to the recommended values, although they are the only well known ones that will have to be recognized by any Homie consumer.
+          You are not limited to the recommended values, although they are the only well known ones that will have to be recognized by FastyBird controller.
         </td>
         <td>
             Recommended:<br>
@@ -470,7 +473,7 @@ A property attribute MUST be one of these:
     </tr>
     <tr>
        <td>$datatype</td>
-       <td>Device → Controller</td>
+       <td>Thing → Controller</td>
        <td>Describes the format of data.</td>
        <td>
          <code>integer</code>,
@@ -485,7 +488,7 @@ A property attribute MUST be one of these:
     </tr>
     <tr>
        <td>$format</td>
-       <td>Device → Controller</td>
+       <td>Thing → Controller</td>
        <td>
         Describes what are valid values for this property.
        </td>
@@ -515,94 +518,72 @@ A property attribute MUST be one of these:
 For example, our `temperature` property would send:
 
 ```java
-homie/super-car/engine/temperature/$name → "Engine temperature"
-homie/super-car/engine/temperature/$settable → "false"
-homie/super-car/engine/temperature/$unit → "°C"
-homie/super-car/engine/temperature/$datatype → "float"
-homie/super-car/engine/temperature/$format → "-20:120"
-homie/super-car/engine/temperature → "21.5"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/thermostat/temperature/$name → "Engine temperature"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/thermostat/temperature/$settable → "false"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/thermostat/temperature/$unit → "°C"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/thermostat/temperature/$datatype → "float"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/thermostat/temperature/$format → "-20:120"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/thermostat/temperature → "21.5"
 ```
 
-* `homie` / `device ID` / `node ID` / `property ID` / **`set`**: the device can subscribe to this topic if the property is **settable** from the controller, in case of actuators.
+* / `fastybird` / `thing ID` / `channel ID` / `property ID` / **`set`**: the thing can subscribe to this topic if the property is **settable** from the controller, in case of actuators.
 
-Homie is state-based.
+FastyBird IoT is state-based.
 You don't tell your smartlight to `turn on`, but you tell it to put its `power` state to `on`.
 This especially fits well with MQTT, because of retained message.
 
-For example, a `kitchen-light` device exposing a `light` node would subscribe to `homie/kitchen-light/light/power/set` and it would receive:
+For example, a `kitchen-light` thing exposing a `light` channel would subscribe to `/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/light/power/set` and it would receive:
 
 ```java
-homie/kitchen-light/light/power/set ← "true"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/light/power/set ← "true"
 ```
 
-The device would then turn on the light, and update its `power` state.
+The thing would then turn on the light, and update its `power` state.
 This provides pessimistic feedback, which is important for home automation.
 
 ```java
-homie/kitchen-light/light/power → "true"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/light/power → "true"
 ```
 
 ### Arrays
 
-A node can be an array if you've added `[]` to its ID in the `$nodes` device attribute, and if its `$array` attribute is set to the range of the array.
-Let's consider we want to control independently the front lights and back lights of our `super-car`. Our `lights` node array would look like this. Note that the topic for an element of the array node is the name of the node followed by a `_` and the index getting updated:
+A channel can be an array if you've added `[]` to its ID in the `$channels` thing attribute, and if its `$array` attribute is set to the range of the array.
+Let's consider we want to control independently the relays of our `smart switch`. Our `switches` channel array would look like this. Note that the topic for an element of the array channel is the name of the channel followed by a `_` and the index getting updated:
 
 ```java
-homie/super-car/$nodes → "lights[]"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/$channels → "switches[]"
 
-homie/super-car/lights/$name → "Lights"
-homie/super-car/lights/$properties → "intensity"
-homie/super-car/lights/$array → "0-1"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/switches/$name → "Relay switches"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/switches/$properties → "state"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/switches/$array → "0-1"
 
-homie/super-car/lights/intensity/$name → "Intensity"
-homie/super-car/lights/intensity/$settable → "true"
-homie/super-car/lights/intensity/$unit → "%"
-homie/super-car/lights/intensity/$datatype → "integer"
-homie/super-car/lights/intensity/$format → "0:100"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/switches/intensity/$name → "Relay state"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/switches/intensity/$settable → "true"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/switches/intensity/$unit → ""
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/switches/intensity/$datatype → "boolean"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/switches/intensity/$format → ""
 
-homie/super-car/lights_0/$name → "Back lights"
-homie/super-car/lights_0/intensity → "0"
-homie/super-car/lights_1/$name → "Front lights"
-homie/super-car/lights_1/intensity → "100"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/switches_0/$name → "Main lights"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/switches_0/state → "true"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/switches_1/$name → "Table lights"
+/fastybird/9222852d-1fc4-447b-9967-f8d82fbc4a6f/switches_1/state → "false"
 ```
 
-Note that you can name each element in your array individually ("Back lights", etc.).
+Note that you can name each element in your array individually ("Main lights", etc.).
 
 ----
 
 ### Broadcast Channel
 
-Homie defines a broadcast channel, so a controller is able to broadcast a message to every Homie devices:
+FastyBird IoT defines a broadcast channel, so a controller is able to broadcast a message to every FastyBird things:
 
-* `homie` / `$broadcast` / **`level`**: `level` is an arbitrary broadcast identifier.
+* / `fastybird` / `$broadcast` / **`level`**: `level` is an arbitrary broadcast identifier.
 It must adhere to the [ID format](#topic-ids).
 
 For example, you might want to broadcast an `alert` event with the alert reason as the payload.
-Devices are then free to react or not.
+Things are then free to react or not.
 In our case, every buzzer of your home automation system would start buzzing.
 
 ```java
-homie/$broadcast/alert ← "Intruder detected"
+/fastybird/$broadcast/alert ← "Intruder detected"
 ```
-
-Any other topic is not part of the Homie convention.
-
-----
-----
-
-## FAQ
-
-In this section frequently asked questions will be answered.
-This includes design decisions and drawn compromises in the specifics of the Homie convention.
-
-### How do I query/request a property?
-
-You don't.
-The MQTT protocol does not implement the request-reply but rather the publish-subscribe messaging pattern.
-The Homie convention follows the publish-subscribe principle by publishing data as retained messages on a regular basis.
-You might want to rethink the design of your application - in most scenarios a regularly updated information is sufficient.
-
-*Workaround:* You are free to implement your own ideas on top of the basic structure of the Homie convention.
-You could either implement a `get` getter topic and its logic to trigger a value update, or you may exploit the concept of Homie properties and define a settable property to trigger a value update.
-
-A discussion on the matter can be found in issue [#79](https://github.com/homieiot/convention/issues/79).
