@@ -1,4 +1,6 @@
-![FastyBird logo](fastybird_logo.png)
+<p align="center">
+ <img src="https://github.com/FastyBird/convention/blob/master/fastybird_logo.png">
+</p>
 
 # The FastyBird IoT convention
 
