@@ -501,3 +501,6 @@ In our case, every buzzer of your home automation system would start buzzing.
 ```
 /fb/v1/$broadcast/alert ← "Intruder detected"
 ```
+
+***
+Homepage [http://www.fastybird.com](http://www.fastybird.com) and repository [http://github.com/fastybird/mqtt-convention](http://github.com/fastybird/mqtt-convention).
