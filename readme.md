@@ -168,7 +168,7 @@ Each device has to have a unique ID.
 
 When the MQTT connection to the broker is established or re-established, the thing MUST send its attributes to the broker immediately!
 
-<table width="100%">
+<table style="display: table">
     <tr>
         <th align="left">Topic</th>
         <th align="left">Direction</th>
@@ -259,7 +259,7 @@ Each channel must have a unique channel ID on a per-device basis which adhere to
 
 A channel attribute MUST be one of these:
 
-<table width="100%">
+<table style="display: table">
     <tr>
         <th align="left">Topic</th>
         <th align="left">Direction</th>
@@ -330,7 +330,7 @@ Each property must have a unique property ID on a per-device|per-channel basis w
 
 The following attributes are required:
 
-<table width="100%">
+<table style="display: table">
     <tr>
         <th align="left" valign="top">Topic</th>
         <th align="left" valign="top">Direction</th>
@@ -360,7 +360,7 @@ The following attributes are required:
 
 The following attributes are optional:
 
-<table width="100%">
+<table style="display: table">
     <tr>
         <th align="left" valign="top">Topic</th>
         <th align="left" valign="top">Direction</th>
