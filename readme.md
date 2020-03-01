@@ -22,6 +22,7 @@ A lightweight MQTT convention for the smart IoT ecosystem
   * [Properties](#properties)
     * [Property attributes](#property-attributes)
   * [Broadcast channel](#broadcast-channel)
+* [Extensions](#extensions)
 
 types are UTF-8 encoded string literal representations of 64-bit signed floating point numbers
 
@@ -194,6 +195,15 @@ When the connection to the broker is established or re-established, device MUST 
         </td>
         <td align="center">Yes</td>
         <td align="center">Yes</td>
+    </tr>
+    <tr>
+        <td align="left">$extensions</td>
+        <td align="left">Device → Controller</td>
+        <td align="left">
+            Implemented <a href="#extensions">extensions</a>, separated by <code>,</code> for multiple ones.
+        </td>
+        <td align="center">Yes</td>
+        <td align="center">No</td>
     </tr>
 </table>
 
@@ -501,6 +511,20 @@ In our case, every buzzer of your home automation system would start buzzing.
 ```
 /fb/v1/$broadcast/alert ← "Intruder detected"
 ```
+
+## Extensions
+
+This convention covers only basic devices description and capabilities. The aim is to have simple and straightforward standardized MQTT topics for all kind of complex scenarios.
+A device may therefore support extensions, defined in separate documents. Every extension MUST be identified by a unique ID.
+
+The ID consists of the reverse domain name and a freely chosen suffix.
+
+For example, an organization `smart-example.org` wanting to add a feature `our-feature` would choose the extension ID `org.smart-example.our-feature`.
+
+#### Supported extensions
+
+* [Firmware info](https://github.com/FastyBird/convention/blob/master/extensions/com.fastybird.firmware.md) helps describe device's firmware
+* [Hardware info](https://github.com/FastyBird/convention/blob/master/extensions/com.fastybird.hardware.md) helps describe device's hardware
 
 ***
 Homepage [http://www.fastybird.com](http://www.fastybird.com) and repository [http://github.com/fastybird/mqtt-convention](http://github.com/fastybird/mqtt-convention).
