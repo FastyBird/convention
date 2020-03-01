@@ -168,7 +168,7 @@ Each device has to have a unique ID.
 
 When the MQTT connection to the broker is established or re-established, the thing MUST send its attributes to the broker immediately!
 
-<table>
+<table width="100%">
     <tr>
         <th align="left">Topic</th>
         <th align="left">Direction</th>
@@ -214,7 +214,7 @@ When the MQTT connection to the broker is established or re-established, the thi
     </tr>
 </table>
 
-For example, a smart switch device with an ID of `room-smart-switch` that comprises off a `button` and a `switches` channels would send:
+For example, a smart switch device with an ID of `room-smart-switch` that comprises off a `button` and a `switch` channels would send:
 
 ```
 /fb/v1/room-smart-switch/$property/state → "init"
@@ -259,7 +259,7 @@ Each channel must have a unique channel ID on a per-device basis which adhere to
 
 A channel attribute MUST be one of these:
 
-<table>
+<table width="100%">
     <tr>
         <th align="left">Topic</th>
         <th align="left">Direction</th>
@@ -330,7 +330,7 @@ Each property must have a unique property ID on a per-device|per-channel basis w
 
 The following attributes are required:
 
-<table>
+<table width="100%">
     <tr>
         <th align="left" valign="top">Topic</th>
         <th align="left" valign="top">Direction</th>
@@ -360,7 +360,7 @@ The following attributes are required:
 
 The following attributes are optional:
 
-<table>
+<table width="100%">
     <tr>
         <th align="left" valign="top">Topic</th>
         <th align="left" valign="top">Direction</th>
