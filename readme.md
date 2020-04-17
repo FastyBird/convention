@@ -100,7 +100,7 @@ Thermostat is a **channel** and temperature and humidity is a **property** of th
   / fb / v1 / device-name / $channel / thermostat / $property / temperature / $settable → true
   / fb / v1 / device-name / $channel / thermostat / $property / temperature / $queryable → true
 
-  / fb / v1 / device-name / $channel / thermostat / $properties / temperature  → 22
+  / fb / v1 / device-name / $channel / thermostat / $property / temperature  → 22
 
   / fb / v1 / device-name / $channel / thermostat / $property / humidity / $name → Humidity
   / fb / v1 / device-name / $channel / thermostat / $property / humidity / $unit → %
@@ -108,7 +108,7 @@ Thermostat is a **channel** and temperature and humidity is a **property** of th
   / fb / v1 / device-name / $channel / thermostat / $property / humidity / $settable → false
   / fb / v1 / device-name / $channel / thermostat / $property / humidity / $queryable → true
 
-  / fb / v1 / device-name / $channel / thermostat / $properties / humidity  → 60
+  / fb / v1 / device-name / $channel / thermostat / $property / humidity  → 60
 
   / fb / v1 / device-name / $channel / switch / $name → Heating switches
   / fb / v1 / device-name / $channel / switch / $properties → relay
